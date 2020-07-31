@@ -1,30 +1,28 @@
-@extends('layouts.form')
-@section('loginForm')
+@extends('layouts.auth')
 
-    <div class="container kt-login__signin">
-        <div class="kt-login__head">
-            <h3 class="kt-login__title">{{ __('Login IN MY HOME') }}</h3>
-        </div>
-        <div class="card-body">
-            <form method="POST" class="kt-form" action="{{ route('login') }}">
+@section('content')
+    <div class="kt-login__title">
+        <h3>Sign In</h3>
+    </div>
+    <div class="kt-login__body">
+        <div class="kt-login__form">
+            <form method="POST" class="kt-form" id="kt_login_form" action="{{ route('login') }}">
                 @csrf
-                <div class="form-group row">
-
-                    <div class="input-group">
-                        <input  placeholder="Email" type="email" class="form-control @error('email') is-invalid @enderror"
-                               name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                        @error('email')
-                        <span class="invalid-feedback" role="alert">
+                <div class="form-group">
+                    <input id="email" class="form-control @error('email') is-invalid @enderror"
+                           value="{{ old('email') }}" type="email" placeholder="Username" name="email" required
+                           autocomplete="email" autofocus>
+                    @error('email')
+                    <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                        @enderror
-                    </div>
+                    @enderror
                 </div>
 
-                <div class="input-group">
-                    <input  placeholder="Password" type="password"
+                <div class="form-group">
+                    <input id="password" class="form-control" type="password"
                            class="form-control @error('password') is-invalid @enderror" name="password" required
-                           autocomplete="current-password">
+                           autocomplete="current-password" placeholder="Password">
                     @error('password')
                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -32,48 +30,27 @@
                     @enderror
                 </div>
 
-                <div class="row kt-login__extra">
-                    <div class="col">
-                        <label class="kt-checkbox">
-                            <input type="checkbox" name="remember"> Remember me
-                            <span></span>
-                        </label>
-                    </div>
-                    <div class="col kt-align-right">
-                        @if (Route::has('password.request'))
-                            <a class="kt-link kt-login__link" id="kt_login_forgot" href="{{ route('home') }}">
-                                {{ __('Forgot Your Password?') }}
-                            </a>
-                        @endif
-                    </div>
-                </div>
-
-
 
 
                 <div class="kt-login__actions">
-                    <button type="submit" id="kt_login_signin_submit" class="btn btn-pill kt-login__btn-primary">
+                    @if (Route::has('password.request'))
+                        <a class="kt-link kt-login__link-forgot" href="{{ route('password.request') }}">
+                            {{ __('Forgot Your Password?') }}
+                        </a>
+                    @endif
+                    <button id="kt_login_signin_submit" type="submit" class="btn btn-primary btn-elevate kt-login__btn-primary" style="margin-right: auto ; margin-left: auto">
                         {{ __('Login') }}
                     </button>
 
 
                 </div>
 
-            </form>
-        </div>
-    </div>
-    <div class="kt-login__forgot">
-        <div class="kt-login__head">
-            <h3 class="kt-login__title"> YOU ARE LOGIN !!!</h3>
-        </div>
-        <a class="dropdown-item" href="{{ route('logout') }}"
-           onclick="event.preventDefault();
-            document.getElementById('logout-form').submit();">
-            {{ __('Logout') }}
-        </a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
+
+
+
+
         </form>
     </div>
-@endsection
+    </div>
 
+@endsection
